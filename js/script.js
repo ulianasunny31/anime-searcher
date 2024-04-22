@@ -1,43 +1,51 @@
-const input = document.querySelector(".search-input");
+const input = document.querySelector(".search-inp");
+const searchBtn = document.querySelector(".search-btn");
 const mainContainer = document.querySelector(".main-container");
 const loadMoreBtn = document.querySelector("#load-more-btn");
-
-// const { title, synopsis, year, rating, genres, studios, image_url } = anime;
-
+let timerID, inputValue;
 let page = 1;
 let perPage = 24;
+const params = new URLSearchParams({
+  limit: perPage,
+  page: page,
+});
 
-function animeFetcher() {
-  const params = new URLSearchParams({
-    limit: perPage,
-    page: page,
-  });
+let url = `https://api.jikan.moe/v4/anime?${params}`;
+// const { title, synopsis, year, rating, genres, studios, image_url } = anime;
 
-  fetch(`https://api.jikan.moe/v4/anime?${params}`)
+function animeFetcher(func, link) {
+  fetch(link)
     .then((response) => response.json())
     .then((result) => {
-      let animes = result.data;
-      if (animes.length === 0) {
-        mainContainer.innerHTML = `<h2 class="nothing-heading">Nothing was found</h2>`;
-      } else {
-        animes.forEach((anime) => {
-          drawAnimeCard(anime);
-        });
-        loadMoreBtn.classList.replace("not-visible", "load-more-btn");
-        page += 1;
-      }
+      createCards(result.data, func);
     })
     .catch((error) => console.log("Error:", error));
 }
 
-animeFetcher();
+function createCards(animeData, foo) {
+  if (animeData.length === 0) {
+    mainContainer.innerHTML = `<h2 class="nothing-heading">Nothing was found</h2>`;
+  } else {
+    animeData.forEach((anime) => {
+      foo(anime);
+    });
+    if (animeData.length >= 24) {
+      loadMoreBtn.classList.replace("not-visible", "load-more-btn");
+    } else {
+      loadMoreBtn.classList.replace("load-more-btn", "not-visible");
+    }
+    page += 1;
+  }
+}
+
+animeFetcher(drawSmallAnimeCard, url);
 
 loadMoreBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  animeFetcher();
+  animeFetcher(drawSmallAnimeCard, url);
 });
 
-function drawAnimeCard(anime) {
+function drawSmallAnimeCard(anime) {
   const { title, images } = anime;
   const smallImageUrl = images.jpg.large_image_url;
 
@@ -49,3 +57,18 @@ function drawAnimeCard(anime) {
   `;
   mainContainer.insertAdjacentHTML("beforeend", smallAnimeCard);
 }
+
+searchBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  clearTimeout(timerID);
+  timerID = setTimeout(function () {
+    inputValue = input.value.trim();
+    url = `https://api.jikan.moe/v4/anime?${params}&q=${inputValue}`;
+    if (inputValue !== "") {
+      page = 1;
+      mainContainer.innerHTML = "";
+      animeFetcher(drawSmallAnimeCard, url);
+    }
+  }, 1000);
+});
