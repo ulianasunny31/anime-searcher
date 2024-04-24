@@ -1,3 +1,4 @@
+// import * as basicLightbox from "basiclightbox";
 import {
   timerID,
   inputValue,
@@ -5,11 +6,9 @@ import {
   searchBtn,
   mainContainer,
   loadMoreBtn,
-  page,
-  perPage,
-  modalBackdrop,
-} from "../refs.js";
-
+} from "./refs.js";
+let page = 1;
+let perPage = 24;
 const params = new URLSearchParams({
   limit: perPage,
   page: page,
@@ -18,7 +17,7 @@ const params = new URLSearchParams({
 let url = `https://api.jikan.moe/v4/anime?${params}`;
 
 //Показывает все карточки изначально на странице
-animeFetcher(drawSmallAnimeCard, url);
+animeFetcher(drawSmallCard, url);
 
 //Вызов на сервер для получения инф про аниме, вкладывается ф-я по структуре карточек и ссылка на вызов как параметры
 function animeFetcher(func, link) {
@@ -47,19 +46,13 @@ function createCards(animeData, foo) {
   }
 }
 
-//Загружает больше карточек аниме
-loadMoreBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  animeFetcher(drawSmallAnimeCard, url);
-});
-
 //Создает структуру маленьких карточек аниме
-function drawSmallAnimeCard(anime) {
-  const { title, images } = anime;
+function drawSmallCard(anime) {
+  const { title, images, mal_id } = anime;
   const smallImageUrl = images.jpg.large_image_url;
 
   let smallAnimeCard = `
-  <div class="anime-card">
+  <div class="anime-card" data-anime-id="${mal_id}">
   <img class="anime-image-small" src="${smallImageUrl}" alt="${title}" width="220" height="300"/>
   <h3 class="anime-small-heading">${title}</h3>
   </div>
@@ -67,6 +60,34 @@ function drawSmallAnimeCard(anime) {
   mainContainer.insertAdjacentHTML("beforeend", smallAnimeCard);
 }
 
+const openBigCard = (e) => {
+  e.preventDefault();
+
+  const animeCard = e.target.closest(".anime-card");
+  if (!animeCard) {
+    return;
+  }
+  const animeId = animeCard.dataset.animeId;
+
+  url = `https://api.jikan.moe/v4/anime/${animeId}`;
+
+  const instance = basicLightbox(animeFetcher(drawBigCard, url));
+};
+
+mainContainer.addEventListener("click", openBigCard);
+//
+//
+//
+//
+//
+//Загружает больше карточек аниме
+loadMoreBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  animeFetcher(drawSmallAnimeCard, url);
+});
+//
+//
+//
 //Совершает поиск по вводу имени аниме
 searchBtn.addEventListener("click", (e) => {
   e.preventDefault();
@@ -82,20 +103,35 @@ searchBtn.addEventListener("click", (e) => {
     }
   }, 1000);
 });
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 function drawBigCard(anime) {
-  const { title, synopsis, year, rating, genres, studios, image_url } = anime;
+  const { title, synopsis, year, rating, genres, studios, images } = anime;
   const bigImageUrl = images.jpg.large_image_url;
 
   let bigAnimeCard = `
   <div class="modal">
+  <button data-modal-close class="btn-modal" type="button">
+        </button>
   <img class="anime-image-big" src="${bigImageUrl}" alt="${title}" width="" height=""/>
   <div>
   <h3 class="title">Title: ${title}</h3>
   <h3 class="rating">Rating: ${rating}</h3>
   <h3 class="year">Year: ${year}</h3>
   <h3 class="studios">Studios: ${studios}</h3>
-  <h3 class="genre">Genre: ${genre}</h3>
+  <h3 class="genre">Genre: ${genres}</h3>
   </div>
   <p class="synopsis">${synopsis}</p>
 
