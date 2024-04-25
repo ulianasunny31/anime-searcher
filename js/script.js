@@ -1,4 +1,3 @@
-// import * as basicLightbox from "basiclightbox";
 import {
   timerID,
   inputValue,
@@ -62,7 +61,7 @@ function drawSmallCard(anime) {
 
 const openBigCard = (e) => {
   e.preventDefault();
-
+  let animeData;
   const animeCard = e.target.closest(".anime-card");
   if (!animeCard) {
     return;
@@ -70,8 +69,55 @@ const openBigCard = (e) => {
   const animeId = animeCard.dataset.animeId;
 
   url = `https://api.jikan.moe/v4/anime/${animeId}`;
+  fetch(url)
+    .then((response) => response.json())
+    .then((result) => {
+      animeData = result.data;
 
-  const instance = basicLightbox(animeFetcher(drawBigCard, url));
+      const { title, synopsis, year, rating, genres, studios, images } =
+        animeData;
+      const bigImageUrl = images.jpg.large_image_url;
+      let bigAnimeCard = `
+      <div class="c">
+      <img class="anime-image-big" src="${bigImageUrl}" alt="${title}" width="" height=""/>
+      <div>
+      <h3 class="title">Title: ${title}</h3>
+      <h3 class="rating">Rating: ${rating}</h3>
+      <h3 class="year">Year: ${year}</h3>
+      <h3 class="studios">Studios: ${studios}</h3>
+      <h3 class="genre">Genre: ${genres}</h3>
+      </div>
+      <p class="synopsis">${synopsis}</p>
+
+      </div>
+      `;
+
+      const instance = basicLightbox.create(bigAnimeCard, {
+        onShow: (instance) => {
+          window.addEventListener("keydown", closeCard);
+          document.addEventListener("click", closeCardOnClick);
+        },
+        onClose: (instance) => {
+          window.removeEventListener("keydown", closeCard);
+          document.removeEventListener("click", closeCardOnClick);
+        },
+      });
+      instance.show();
+      //Ф-я, что закрывает большую карточку при нажатии Escape
+      function closeCard(e) {
+        if (e.code === "Escape") {
+          instance.close();
+        }
+      }
+
+      function closeCardOnClick(e) {
+        if (!instance.visible() || e.target.closest(".big-card")) {
+          return;
+        }
+        instance.close();
+      }
+    })
+    .catch((error) => console.log(error));
 };
 
 mainContainer.addEventListener("click", openBigCard);
@@ -137,6 +183,4 @@ function drawBigCard(anime) {
 
   </div>
   `;
-
-  modalBackdrop.insertAdjacentHTML("beforeend", bigAnimeCard);
 }
