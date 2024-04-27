@@ -73,22 +73,30 @@ const openBigCard = (e) => {
     .then((result) => {
       animeData = result.data;
 
-      const { title, synopsis, year, rating, genres, studios, images } =
+      let { title, synopsis, year, rating, genres, studios, images } =
         animeData;
+
+      // //Checking if the info exists
+      year = year ? year : "-";
+      studios = studios ? studios : "-";
+      rating = rating ? rating : "-";
+      genres = genres ? genres : "-";
+
       //Получаем данные из внутренних массивов
       const bigImageUrl = images.jpg.large_image_url;
       const studioName = studios.map((studio) => studio.name).join(", ");
       const genreList = genres.map((genre) => genre.name).join(", ");
+
       //Создаем большую карточку
       let bigAnimeCard = `
       <div class="big-card">
       <img class="anime-image-big" src="${bigImageUrl}" alt="${title}" width="" height=""/>
       <div class="short-info">
-      <h3 class="title">Title: <span>${title}</span></h3>
-      <h3 class="rating">Rating: <span>${rating}</span></h3>
-      <h3 class="year">Year: <span>${year}</span></h3>
-      <h3 class="studios">Studios: <span>${studioName}</span></h3>
-      <h3 class="genre">Genre: <span>${genreList}</span></h3>
+      <h3 class="big-title title">Title: <span>${title}</span></h3>
+      <h3 class="big-title rating">Rating: <span>${rating}</span></h3>
+      <h3 class="big-title year">Year: <span>${year}</span></h3>
+      <h3 class="big-title studios">Studios: <span>${studioName}</span></h3>
+      <h3 class="big-title genre">Genre: <span>${genreList}</span></h3>
       </div>
       <span class="summary">Summary:</span><br>
       <p class="synopsis">${synopsis}</p>
@@ -135,7 +143,7 @@ mainContainer.addEventListener("click", openBigCard);
 //Загружает больше карточек аниме
 loadMoreBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  animeFetcher(drawSmallAnimeCard, url);
+  animeFetcher(drawSmallCard, url);
 });
 //
 //
