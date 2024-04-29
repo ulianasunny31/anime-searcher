@@ -1,5 +1,13 @@
-import { input, searchBtn, mainContainer, loadMoreBtn } from "./refs.js";
+import {
+  input,
+  searchBtn,
+  mainContainer,
+  loadMoreBtn,
+  select,
+} from "./refs.js";
 import { openBigCard } from "./big-card-shower.js";
+import { fetchGenres, fetcher } from "./fetch.js";
+
 let timerID, inputValue;
 let page = 1;
 let perPage = 24;
@@ -8,7 +16,7 @@ const params = new URLSearchParams({
   page: page,
 });
 
-let url = `https://api.jikan.moe/v4/anime?${params}`;
+let url = `https://api.jikan.moe/v4/anime`;
 
 //Показывает все карточки изначально на странице
 animeFetcher(drawSmallCard, url);
@@ -18,7 +26,8 @@ function animeFetcher(func, link) {
   fetch(link)
     .then((response) => response.json())
     .then((result) => {
-      createCards(result.data, func);
+      // console.log(result.data);
+      // createCards(result.data, func);
     })
     .catch((error) => console.log("Error:", error));
 }
@@ -27,6 +36,7 @@ function animeFetcher(func, link) {
 function createCards(animeData, foo) {
   if (animeData.length === 0) {
     mainContainer.innerHTML = `<h2 class="nothing-heading">Nothing was found</h2>`;
+    loadMoreBtn.classList.replace("load-more-btn", "not-visible");
   } else {
     animeData.forEach((anime) => {
       foo(anime);
@@ -42,7 +52,7 @@ function createCards(animeData, foo) {
 
 //Создает структуру маленьких карточек аниме
 function drawSmallCard(anime) {
-  const { title, images, mal_id } = anime;
+  let { title, images, mal_id } = anime;
   const smallImageUrl = images.jpg.large_image_url;
 
   let smallAnimeCard = `
@@ -83,5 +93,34 @@ searchBtn.addEventListener("click", (e) => {
     }
   }, 1000);
 });
+//
+//
+fetchGenres((url = "https://api.jikan.moe/v4/genres/anime"));
+
+// function fetchAnimeByGenre(genre) {
+//   fetch((url = `https://api.jikan.moe/v4/anime`))
+//     .then((response) => response.json())
+//     .then((result) => {
+//       const allAnimeData = result.data;
+//       console.log(allAnimeData);
+//       const filteredAnime = allAnimeData.filter((anime) => {
+//         return anime.genres.includes(genre);
+//       });
+//       console.log(filteredAnime);
+//     })
+//     .catch((error) => console.log("Error:", error));
+//   // createCards(filteredAnime, drawSmallCard);
+// }
+
+// select.addEventListener("change", (e) => {
+//   let genreValue = e.currentTarget.value;
+//   // console.log(genreValue);
+//   fetchAnimeByGenre(genreValue);
+// });
+
+//
+//
+//
+//
 //
 //
