@@ -38,11 +38,11 @@ export const openBigCard = (e) => {
       <div class="big-card">
       <img class="anime-image-big" src="${bigImageUrl}" alt="${title}" width="" height=""/>
       <div class="short-info">
-      <h3 class="big-title title">Title: <span>${title}</span></h3>
-      <h3 class="big-title rating">Rating: <span>${rating}</span></h3>
-      <h3 class="big-title year">Year: <span>${year}</span></h3>
-      <h3 class="big-title studios">Studios: <span>${studioName}</span></h3>
-      <h3 class="big-title genre">Genre: <span>${genreList}</span></h3>
+      <h3 class="big-title title">Title: <span class="small-span">${title}</span></h3>
+      <h3 class="big-title rating">Rating: <span class="small-span">${rating}</span></h3>
+      <h3 class="big-title year">Year: <span class="small-span">${year}</span></h3>
+      <h3 class="big-title studios">Studios: <span class="small-span">${studioName}</span></h3>
+      <h3 class="big-title genre">Genre: <span class="small-span">${genreList}</span></h3>
       </div>
       <span class="summary">Summary:</span><br>
       <p class="synopsis">${synopsis}</p>

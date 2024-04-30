@@ -1,10 +1,10 @@
 :root {
   --cards-color: #f0ebe3;
-  --pink: #f3d0d7;
-  --body-back: #f6f5f2;
-  --light-pink: #ffefef;
-  --red: #dc8686;
-  --dark-red: #994d4d;
+  --body-back: #393e46;
+  --teal: #00fff5;
+  --dark-teal: #135d66;
+  --light-teal: #e3fef7;
+  --dark-color: #222831;
 }
 
 body {
@@ -40,7 +40,7 @@ ol {
 }
 .link {
   text-decoration: none;
-  color: var(--black);
+  color: black;
 }
 
 /**
@@ -56,8 +56,8 @@ ol {
 .load-more-btn {
   display: block;
   font-weight: bolder;
-  color: var(--light-pink);
-  background-color: var(--red);
+  color: var(--dark-teal);
+  background-color: var(--teal);
   border: none;
   border-radius: 3px;
   margin: 0 auto;
@@ -69,7 +69,7 @@ ol {
 
 .top-container {
   height: 70px;
-  background-color: var(--pink);
+  background-color: var(--dark-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -79,7 +79,7 @@ ol {
   width: 200px;
   height: 35px;
   font-size: 13px;
-  background-color: var(--light-pink);
+  background-color: var(--light-teal);
   border: none;
   border-radius: 4px;
   margin-right: 15px;
@@ -89,10 +89,10 @@ ol {
 .search-btn {
   width: 60px;
   height: 35.6px;
-  background-color: var(--red);
+  background-color: var(--teal);
   border: none;
   border-radius: 3px;
-  color: white;
+  color: var(--dark-teal);
   font-size: 11px;
   font-weight: bold;
   cursor: pointer;
@@ -107,34 +107,33 @@ ol {
   flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
-  column-gap: 60px;
-  row-gap: 40px;
-  padding: 50px;
+  column-gap: 15px;
+  row-gap: 30px;
+  padding: 40px 0px 50px 0px;
 }
 
 .anime-card {
-  background-color: var(--cards-color);
-  width: 200px;
+  color: white;
+  background-color: var(--dark-color);
+  width: 160px;
   border-radius: 3px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 10px;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-top: 5px;
   padding-bottom: 15px;
   cursor: pointer;
 }
 
 .anime-image-small {
   margin-bottom: 15px;
-  height: 250px;
-  width: 180px;
+  height: 190px;
+  width: 150px;
 }
 
 .anime-small-heading {
-  font-size: 15px;
+  font-size: 11px;
   text-align: center;
 }
 
@@ -153,13 +152,23 @@ ol {
     font-size: 12px;
   }
 
+  .main-container {
+    justify-content: center;
+    column-gap: 45px;
+    row-gap: 40px;
+    padding: 50px;
+    column-gap: 35px;
+    row-gap: 30px;
+  }
+
   .anime-card {
-    width: 210px;
+    width: 190px;
+    padding: 5px 0 10px 0;
   }
 
   .anime-image-small {
     height: 250px;
-    width: 190px;
+    width: 180px;
   }
 }
 
@@ -174,8 +183,13 @@ ol {
     font-size: 13px;
   }
 
+  .main-container {
+    column-gap: 75px;
+    row-gap: 40px;
+  }
+
   .anime-card {
-    width: 250px;
+    width: 240px;
   }
 
   .anime-image-small {
@@ -188,6 +202,13 @@ ol {
   }
 }
 
+@media screen and (min-width: 1440px) {
+  .main-container {
+    column-gap: 85px;
+    row-gap: 40px;
+    padding: 50px;
+  }
+}
 /**
   |============================
   | BIG CARD
@@ -196,13 +217,14 @@ ol {
 
 .big-card {
   width: 300px;
-  background-color: white;
+  background-color: var(--body-back);
   font-size: 11px;
   padding: 10px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  border-radius: 3px;
+  border-radius: 8px;
+  color: var(--teal);
 }
 
 .short-info {
@@ -219,16 +241,16 @@ ol {
 
 .big-title {
   font-size: 12px;
-  color: var(--dark-red);
+  color: var(--teal);
   margin-bottom: 8px;
 }
 
-.big-title > span {
-  color: black;
+.big-title > .small-span {
+  color: white;
 }
 
 .summary {
-  color: var(--dark-red);
+  color: var(--teal);
   margin-bottom: 8px;
   font-size: 12px;
   font-weight: bold;
@@ -236,6 +258,7 @@ ol {
 
 p {
   font-style: italic;
+  color: white;
 }
 
 @media screen and (min-width: 768px) {
