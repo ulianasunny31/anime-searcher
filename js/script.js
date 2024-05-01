@@ -69,31 +69,63 @@ fetchGenres((url = "https://api.jikan.moe/v4/genres/anime"));
 // select.addEventListener("change", (e) => {
 //   let genreValue = +e.currentTarget.value;
 
-// fetch(`https://api.jikan.moe/v4/anime?genres=${genreValue}`)
-//   .then((response) => response.json())
-//   .then((result) => {
-//     console.log(result);
-//     // mainContainer.innerHTML = "";
-//     // createCards(filteredAnime, drawSmallCard);
-//   })
-//   .catch((error) => console.log("Error:", error));
-
-// Получаем все аниме с API Jikan
-// fetch(`https://api.jikan.moe/v4/anime?${params}`)
-//   .then((response) => response.json())
-//   .then((result) => {
-//     const allAnime = result.data;
-//     // Фильтруем аниме по выбранному жанру
-//     const filteredAnime = allAnime.filter((anime) =>
-//       anime.genres.some((genre) => genre.mal_id === genreValue)
-//     );
-//     console.log(filteredAnime);
-//     // Рисуем карточки отфильтрованного аниме
-//     mainContainer.innerHTML = "";
-//     createCards(filteredAnime, drawSmallCard);
-//   })
-//   .catch((error) => console.log("Error:", error));
+//   fetch(`https://api.jikan.moe/v4/anime`)
+//     .then((response) => response.json())
+//     .then((result) => {
+//       const allAnime = result.data;
+//       // Фильтруем аниме по выбранному жанру
+//       const filteredAnime = allAnime.filter((anime) =>
+//         anime.genres.some((genre) => genre.mal_id === genreValue)
+//       );
+//       console.log(filteredAnime);
+//       // Рисуем карточки отфильтрованного аниме
+//       mainContainer.innerHTML = "";
+//       createCards(filteredAnime, drawSmallCard);
+//     })
+//     .catch((error) => console.log("Error:", error));
 // });
+
+select.addEventListener("change", async (e) => {
+  let genreValue = +e.currentTarget.value;
+  let allAnime = [];
+  let page = 1;
+
+  async function fetchAnime() {
+    try {
+      const response = await fetch(
+        `https://api.jikan.moe/v4/anime?genres=${genreValue}&limit=24&page=${page}`
+      );
+      const result = await response.json();
+      const animeData = result.data;
+      allAnime.push(...animeData);
+
+      //
+      // Фильтруем аниме по выбранному жанру
+      const filteredAnime = allAnime.filter((anime) =>
+        anime.genres.some((genre) => genre.mal_id === genreValue)
+      );
+
+      console.log(filteredAnime);
+
+      // Рисуем карточки отфильтрованного аниме
+      mainContainer.innerHTML = "";
+      createCards(filteredAnime, drawSmallCard);
+
+      // Если есть следующая страница, делаем запрос для нее
+      if (result.pagination.has_next_page) {
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Добавляем задержку в 1 секунду перед следующим запросом
+        page++;
+        await fetchAnime(); // Рекурсивный вызов функции fetchAnime()
+      }
+    } catch (error) {
+      console.error("Error fetching anime:", error);
+    }
+  }
+
+  // Начинаем с первой страницы
+  await fetchAnime(); // Вызываем функцию fetchAnime()
+});
+
 //
 //
 //
@@ -131,3 +163,4 @@ searchBtn.addEventListener("click", (e) => {
 });
 //
 //
+url = `https://api.jikan.moe/v4/anime?${params}&q=${inputValue}`;
