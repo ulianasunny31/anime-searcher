@@ -372,4 +372,6 @@ p {
   margin-right: 30px;
   width: 150px;
   height: 30px;
+  background-color: transparent;
+  color: var(--dark-teal);
 }
