@@ -8,7 +8,6 @@ import {
 import { openBigCard } from "./big-card-shower.js";
 import { fetchGenres } from "./fetch.js";
 
-let timerID, inputValue;
 let page = 1;
 let perPage = 24;
 const params = new URLSearchParams({
@@ -26,7 +25,7 @@ function animeFetcher(func, link) {
   fetch(link)
     .then((response) => response.json())
     .then((result) => {
-      // console.log(result.data);
+      console.log(result.data[0]);
       createCards(result.data, func);
     })
     .catch((error) => console.log("Error:", error));
@@ -50,7 +49,7 @@ function createCards(animeData, foo) {
   }
 }
 
-//Creating
+//Creating small cards
 function drawSmallCard(anime) {
   let { title, images, mal_id } = anime;
   const smallImageUrl = images.jpg.large_image_url;
@@ -64,16 +63,21 @@ function drawSmallCard(anime) {
   mainContainer.insertAdjacentHTML("beforeend", smallAnimeCard);
 }
 
-//Fetching genres into select options
+loadMoreBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  animeFetcher(drawSmallCard, url);
+});
+
+// Fetching genres into select options
 fetchGenres((url = "https://api.jikan.moe/v4/genres/anime"));
 
 //Searching by chosen genre
 select.addEventListener("change", async (e) => {
   let genreValue = +e.currentTarget.value;
-  url = `https://api.jikan.moe/v4/anime?genres=${genreValue}&${params}`;
+  let genreUrl = `https://api.jikan.moe/v4/anime?genres=${genreValue}&${params}`;
 
   mainContainer.innerHTML = "";
-  animeFetcher(drawSmallCard, url);
+  animeFetcher(drawSmallCard, genreUrl);
 });
 
 //
@@ -89,10 +93,7 @@ mainContainer.addEventListener("click", openBigCard);
 //
 //
 //Загружает больше карточек аниме
-loadMoreBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  animeFetcher(drawSmallCard, url);
-});
+
 //
 //
 //
