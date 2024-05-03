@@ -1,4 +1,4 @@
-import { select } from "./refs.js";
+import { mainContainer, select } from "./refs.js";
 
 export function fetchGenres(link) {
   fetch(link)
