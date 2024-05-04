@@ -1,3 +1,4 @@
+//imports
 import {
   input,
   searchBtn,
@@ -8,30 +9,35 @@ import {
 import { openBigCard } from "./big-card-shower.js";
 import { fetchGenres } from "./fetch.js";
 
+//DECLARATIONS
+let genreValue, inputValue, timerID;
 let page = 1;
-let perPage = 24;
+let PER_PAGE = 24;
+const BASE_URL = "https://api.jikan.moe/v4";
+const GENRE_URL = "https://api.jikan.moe/v4/genres/anime";
+let searchType = "anime";
 const params = new URLSearchParams({
-  limit: perPage,
+  limit: PER_PAGE,
   page: page,
 });
 
-let url = `https://api.jikan.moe/v4/anime?${params}`;
+let url = `${BASE_URL}/anime?${params}`;
 
-//Показывает все карточки изначально на странице
+//Shows all the cards on the page as default view
 animeFetcher(drawSmallCard, url);
 
-//Вызов на сервер для получения инф про аниме, вкладывается ф-я по структуре карточек и ссылка на вызов как параметры
+//Fetching anime data and then creating cards(link to api, func to create cards)
 function animeFetcher(func, link) {
   fetch(link)
     .then((response) => response.json())
     .then((result) => {
-      console.log(result.data[0]);
+      // console.log(result.data[0]);
       createCards(result.data, func);
     })
     .catch((error) => console.log("Error:", error));
 }
 
-//Получает результат вызова на сервер(animeData) и имеет в себе перебор. а потом создание карточек аниме(foo)
+//Getting info (animeData) and iterating it to create cards(foo)
 function createCards(animeData, foo) {
   if (animeData.length === 0) {
     mainContainer.innerHTML = `<h2 class="nothing-heading">Nothing was found</h2>`;
@@ -40,12 +46,11 @@ function createCards(animeData, foo) {
     animeData.forEach((anime) => {
       foo(anime);
     });
-    if (animeData.length >= 24) {
+    if (animeData.length >= PER_PAGE) {
       loadMoreBtn.classList.replace("not-visible", "load-more-btn");
     } else {
       loadMoreBtn.classList.replace("load-more-btn", "not-visible");
     }
-    page += 1;
   }
 }
 
@@ -63,44 +68,45 @@ function drawSmallCard(anime) {
   mainContainer.insertAdjacentHTML("beforeend", smallAnimeCard);
 }
 
+//Loading more cards button listener
 loadMoreBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  animeFetcher(drawSmallCard, url);
+  page += 1;
+  params.set("page", page);
+  let currentUrl;
+  if (searchType === "anime") {
+    currentUrl = `${BASE_URL}/anime?${params}`;
+  } else if (searchType === "genre") {
+    currentUrl = `${BASE_URL}/anime?genres=${genreValue}&${params}`;
+  } else if (searchType === "name") {
+    currentUrl = `https://api.jikan.moe/v4/anime?${params}&q=${inputValue}`;
+  }
+  console.log(currentUrl);
+  animeFetcher(drawSmallCard, currentUrl);
 });
 
 // Fetching genres into select options
-fetchGenres((url = "https://api.jikan.moe/v4/genres/anime"));
+fetchGenres(GENRE_URL);
 
 //Searching by chosen genre
 select.addEventListener("change", async (e) => {
-  let genreValue = +e.currentTarget.value;
-  let genreUrl = `https://api.jikan.moe/v4/anime?genres=${genreValue}&${params}`;
-
+  genreValue = +e.currentTarget.value;
+  url = `${BASE_URL}/anime?genres=${genreValue}&${params}`;
+  searchType = "genre";
   mainContainer.innerHTML = "";
-  animeFetcher(drawSmallCard, genreUrl);
+  animeFetcher(drawSmallCard, url);
 });
 
-//
-//
-//
-//
 //
 
 mainContainer.addEventListener("click", openBigCard);
 //
 //
 //
-//
-//
-//Загружает больше карточек аниме
-
-//
-//
-//
-//Совершает поиск по вводу имени аниме
+//Search by name
 searchBtn.addEventListener("click", (e) => {
   e.preventDefault();
-
+  searchType = "name";
   clearTimeout(timerID);
   timerID = setTimeout(function () {
     inputValue = input.value.trim();
