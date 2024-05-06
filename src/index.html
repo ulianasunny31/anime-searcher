@@ -5,26 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ANIME SEARCHER</title>
     <link rel="stylesheet" href="../src/css/styles.css" />
-    <!-- <link
+    <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css"
-    /> -->
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div class="top-container">
-      <select id="anime-select">
-        <button id="go-back-btn" class="not-visible">Go back</button>
-        <option disabled selected hidden>Search by genre</option>
-      </select>
-      <input class="search-inp" type="text" placeholder="Type anime name" />
-      <button class="search-btn">SEARCH</button>
+      <button id="go-back-btn" class="go-back-btn">Go back</button>
     </div>
     <div class="wrapper">
+      <div class="search-container">
+        <select id="anime-select">
+          <option disabled selected hidden>Search by genre</option>
+        </select>
+        <input class="search-inp" type="text" placeholder="Type anime name" />
+        <button class="search-btn">SEARCH</button>
+      </div>
       <div class="main-container"></div>
       <button id="load-more-btn" class="not-visible">LOAD MORE</button>
     </div>
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script> -->
     <script type="module" src="../src/js/script.js"></script>
   </body>
 </html>

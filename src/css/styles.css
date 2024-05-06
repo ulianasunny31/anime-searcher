@@ -4,11 +4,13 @@
   --teal: #00fff5;
   --dark-teal: #135d66;
   --light-teal: #e3fef7;
+  --darker-teal: #c4dbd5;
   --dark-color: #222831;
 }
 
 body {
   background-color: var(--body-back);
+  font-family: 'Josefin Sans', sans-serif;
   padding: 0;
 }
 
@@ -65,40 +67,51 @@ ol {
   width: 150px;
   height: 40px;
   font-size: 15px;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 .top-container {
+  padding-left: 10px;
+  padding-right: 10px;
   height: 70px;
   background-color: var(--dark-color);
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.search-container {
+  height: 70px;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
 }
 
 .search-inp {
-  width: 130px;
+  width: 150px;
   height: 30px;
-  font-size: 12px;
-  /* width: 155px;
-  height: 35px; */
-  /* font-size: 13px; */
+  font-size: 13px;
   background-color: var(--light-teal);
   border: none;
   border-radius: 4px;
   margin-right: 10px;
   padding-left: 5px;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 .search-btn {
-  width: 60px;
-  height: 35.6px;
+  width: 70px;
+  height: 32px;
   background-color: var(--teal);
   border: none;
   border-radius: 3px;
   color: var(--dark-teal);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: bold;
   cursor: pointer;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 .wrapper {
@@ -146,7 +159,19 @@ ol {
   .search-inp {
     width: 155px;
     height: 35px;
-    font-size: 13px;
+    font-size: 14px;
+  }
+
+  .search-btn {
+    height: 37px;
+  }
+
+  .search-container {
+    height: 70px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -155,10 +180,18 @@ ol {
     width: 220px;
     height: 35px;
     padding-left: 8px;
+    font-size: 15px;
+  }
+
+  .search-container {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .search-btn {
-    width: 65px;
+    width: 80px;
     height: 35.6px;
     font-size: 12px;
   }
@@ -186,12 +219,12 @@ ol {
 @media screen and (min-width: 1158px) {
   .search-inp {
     width: 280px;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .search-btn {
-    width: 80px;
-    font-size: 13px;
+    width: 90px;
+    font-size: 14px;
   }
 
   .main-container {
@@ -218,6 +251,15 @@ ol {
     column-gap: 85px;
     row-gap: 40px;
     padding: 50px;
+  }
+
+  .search-btn {
+    height: 40px;
+  }
+
+  .search-inp {
+    height: 40px;
+    font-size: 17px;
   }
 }
 /**
@@ -381,46 +423,78 @@ p {
 
 #anime-select {
   margin-right: 10px;
-  width: 100px;
-  /* width: 110px; */
+  width: 170px;
   height: 30px;
   background-color: transparent;
   color: var(--teal);
-  font-size: 11px;
+  font-size: 13px;
   border-radius: 3px;
+  font-family: 'Josefin Sans', sans-serif;
+  margin-bottom: 15px;
+  padding-left: 10px;
 }
 
 #anime-select option {
   color: var(--dark-teal);
+  font-family: 'Josefin Sans', sans-serif;
+  background-color: var(--light-teal);
+  cursor: pointer;
+}
+
+#anime-select option:hover {
+  background-color: var(--darker-teal);
 }
 
 .go-back-btn {
+  width: 70px;
+  height: 30px;
+  font-family: inherit;
+  border: none;
+  border-radius: 3px;
+  background-color: var(--dark-teal);
+  color: var(--light-teal);
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.go-back-btn:hover,
+.go-back-btn:focus {
+  background-color: var(--teal);
+  color: var(--dark-color);
+  border: 1px solid var(--dark-teal);
 }
 
 @media screen and (min-width: 375px) {
   #anime-select {
-    width: 110px;
+    width: 200px;
+    font-size: 14px;
   }
 }
 
 @media screen and (min-width: 768px) {
   #anime-select {
     margin-right: 15px;
-    width: 140px;
-    font-size: 14px;
+    height: 35px;
+    font-size: 15px;
+    margin-bottom: 0;
   }
 }
 
 @media screen and (min-width: 1158px) {
   #anime-select {
-    width: 170px;
-    font-size: 15px;
+    font-size: 16px;
+    width: 210px;
   }
 }
 
 @media screen and (min-width: 1440px) {
   #anime-select {
-    width: 200px;
     font-size: 17px;
+    height: 40px;
+    width: 220px;
   }
 }

@@ -1,6 +1,7 @@
 import * as basicLightbox from 'basiclightbox';
 
 //При клике на картинку открывает большую карточку с информацией об аниме
+
 let url;
 export const openBigCard = e => {
   e.preventDefault();
