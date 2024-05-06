@@ -5,17 +5,17 @@ import {
   mainContainer,
   loadMoreBtn,
   select,
-} from "./refs.js";
-import { openBigCard } from "./big-card-shower.js";
-import { fetchGenres } from "./fetch.js";
+} from './refs.js';
+import { openBigCard } from './big-card-shower.js';
+import { fetchGenres } from './fetch.js';
 
 //DECLARATIONS
 let genreValue, inputValue, timerID;
 let page = 1;
 let PER_PAGE = 24;
-const BASE_URL = "https://api.jikan.moe/v4";
-const GENRE_URL = "https://api.jikan.moe/v4/genres/anime";
-let searchType = "anime";
+const BASE_URL = 'https://api.jikan.moe/v4';
+const GENRE_URL = 'https://api.jikan.moe/v4/genres/anime';
+let searchType = 'anime';
 const params = new URLSearchParams({
   limit: PER_PAGE,
   page: page,
@@ -29,27 +29,27 @@ animeFetcher(drawSmallCard, url);
 //Fetching anime data and then creating cards(link to api, func to create cards)
 function animeFetcher(func, link) {
   fetch(link)
-    .then((response) => response.json())
-    .then((result) => {
+    .then(response => response.json())
+    .then(result => {
       // console.log(result.data[0]);
       createCards(result.data, func);
     })
-    .catch((error) => console.log("Error:", error));
+    .catch(error => console.log('Error:', error));
 }
 
 //Getting info (animeData) and iterating it to create cards(foo)
 function createCards(animeData, foo) {
   if (animeData.length === 0) {
     mainContainer.innerHTML = `<h2 class="nothing-heading">Nothing was found</h2>`;
-    loadMoreBtn.classList.replace("load-more-btn", "not-visible");
+    loadMoreBtn.classList.replace('load-more-btn', 'not-visible');
   } else {
-    animeData.forEach((anime) => {
+    animeData.forEach(anime => {
       foo(anime);
     });
     if (animeData.length >= PER_PAGE) {
-      loadMoreBtn.classList.replace("not-visible", "load-more-btn");
+      loadMoreBtn.classList.replace('not-visible', 'load-more-btn');
     } else {
-      loadMoreBtn.classList.replace("load-more-btn", "not-visible");
+      loadMoreBtn.classList.replace('load-more-btn', 'not-visible');
     }
   }
 }
@@ -65,20 +65,20 @@ function drawSmallCard(anime) {
   <h3 class="anime-small-heading">${title}</h3>
   </div>
   `;
-  mainContainer.insertAdjacentHTML("beforeend", smallAnimeCard);
+  mainContainer.insertAdjacentHTML('beforeend', smallAnimeCard);
 }
 
 //Loading more cards button listener
-loadMoreBtn.addEventListener("click", (e) => {
+loadMoreBtn.addEventListener('click', e => {
   e.preventDefault();
   page += 1;
-  params.set("page", page);
+  params.set('page', page);
   let currentUrl;
-  if (searchType === "anime") {
+  if (searchType === 'anime') {
     currentUrl = `${BASE_URL}/anime?${params}`;
-  } else if (searchType === "genre") {
+  } else if (searchType === 'genre') {
     currentUrl = `${BASE_URL}/anime?genres=${genreValue}&${params}`;
-  } else if (searchType === "name") {
+  } else if (searchType === 'name') {
     currentUrl = `https://api.jikan.moe/v4/anime?${params}&q=${inputValue}`;
   }
   console.log(currentUrl);
@@ -89,31 +89,31 @@ loadMoreBtn.addEventListener("click", (e) => {
 fetchGenres(GENRE_URL);
 
 //Searching by chosen genre
-select.addEventListener("change", async (e) => {
+select.addEventListener('change', async e => {
   genreValue = +e.currentTarget.value;
   url = `${BASE_URL}/anime?genres=${genreValue}&${params}`;
-  searchType = "genre";
-  mainContainer.innerHTML = "";
+  searchType = 'genre';
+  mainContainer.innerHTML = '';
   animeFetcher(drawSmallCard, url);
 });
 
 //
 
-mainContainer.addEventListener("click", openBigCard);
+mainContainer.addEventListener('click', openBigCard);
 //
 //
 //
 //Search by name
-searchBtn.addEventListener("click", (e) => {
+searchBtn.addEventListener('click', e => {
   e.preventDefault();
-  searchType = "name";
+  searchType = 'name';
   clearTimeout(timerID);
   timerID = setTimeout(function () {
     inputValue = input.value.trim();
     url = `https://api.jikan.moe/v4/anime?${params}&q=${inputValue}`;
-    if (inputValue !== "") {
+    if (inputValue !== '') {
       page = 1;
-      mainContainer.innerHTML = "";
+      mainContainer.innerHTML = '';
       animeFetcher(drawSmallCard, url);
     }
   }, 1000);
