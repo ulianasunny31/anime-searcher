@@ -22,14 +22,23 @@ export const openBigCard = e => {
     .then(result => {
       animeData = result.data;
 
-      let { title, synopsis, year, rating, genres, studios, images } =
-        animeData;
+      let {
+        title,
+        title_english,
+        synopsis,
+        year,
+        rating,
+        genres,
+        studios,
+        images,
+      } = animeData;
 
       // //Checking if the info exists
       year = year ? year : '-';
       studios = studios ? studios : '-';
       rating = rating ? rating : '-';
       genres = genres ? genres : '-';
+      let realTitle = title_english === null ? title : title_english;
 
       //Получаем данные из внутренних массивов
       const bigImageUrl = images.jpg.large_image_url;
@@ -39,9 +48,9 @@ export const openBigCard = e => {
       //Создаем большую карточку
       let bigAnimeCard = `
       <div class="big-card">
-      <img class="anime-image-big" src="${bigImageUrl}" alt="${title}" width="" height=""/>
+      <img class="anime-image-big" src="${bigImageUrl}" alt="${realTitle}" width="" height=""/>
       <div class="short-info">
-      <h3 class="big-title title">Title: <span class="small-span">${title}</span></h3>
+      <h3 class="big-title title">Title: <span class="small-span">${realTitle}</span></h3>
       <h3 class="big-title rating">Rating: <span class="small-span">${rating}</span></h3>
       <h3 class="big-title year">Year: <span class="small-span">${year}</span></h3>
       <h3 class="big-title studios">Studios: <span class="small-span">${studioName}</span></h3>
@@ -64,7 +73,9 @@ export const openBigCard = e => {
           document.removeEventListener('click', closeCardOnClick);
         },
       });
+
       instance.show();
+
       //Ф-я, что закрывает большую карточку при нажатии Escape
       function closeCard(e) {
         if (e.code === 'Escape') {
@@ -80,5 +91,6 @@ export const openBigCard = e => {
         instance.close();
       }
     })
-    .catch(error => console.log(error));
+    .catch(error => Notify.info('Error:', error));
 };
+// ?

@@ -4,26 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ANIME SEARCHER</title>
-    <link rel="stylesheet" href="../src/css/styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css"
-    />
+    <link rel="stylesheet" href="./css/styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Sedgwick+Ave+Display&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="
+https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css
+"
       rel="stylesheet"
     />
   </head>
   <body>
     <div class="top-container">
-      <button id="go-back-btn" class="go-back-btn">Go back</button>
+      <a href="./index.html">
+        <svg class="logo-icon" width="80" height="70">
+          <use href="./images/symbol-defs.svg#icon-anime-searcher"></use>
+        </svg>
+      </a>
+
+      <h3 class="logo-heading">ANIME SEARCHER</h3>
+      <button id="go-back-btn" class="not-visible">Go back</button>
     </div>
     <div class="wrapper">
       <div class="search-container">
         <select id="anime-select">
-          <option disabled selected hidden>Search by genre</option>
+          <option class="anime-select-option" disabled selected>
+            Search by genre
+          </option>
         </select>
         <input class="search-inp" type="text" placeholder="Type anime name" />
         <button class="search-btn">SEARCH</button>
@@ -32,6 +43,6 @@
       <button id="load-more-btn" class="not-visible">LOAD MORE</button>
     </div>
 
-    <script type="module" src="../src/js/script.js"></script>
+    <script type="module" src="./js/script.js"></script>
   </body>
 </html>

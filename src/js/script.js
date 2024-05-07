@@ -5,8 +5,11 @@ import {
   mainContainer,
   loadMoreBtn,
   select,
+  goBackBtn,
+  options,
 } from './refs.js';
-import { openBigCard } from './big-card-shower.js';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { openBigCard } from './big-card-shower';
 import { fetchGenres } from './fetch.js';
 
 //DECLARATIONS
@@ -31,10 +34,9 @@ function animeFetcher(func, link) {
   fetch(link)
     .then(response => response.json())
     .then(result => {
-      // console.log(result.data[0]);
       createCards(result.data, func);
     })
-    .catch(error => console.log('Error:', error));
+    .catch(error => Notify.info('Error:', error));
 }
 
 //Getting info (animeData) and iterating it to create cards(foo)
@@ -42,6 +44,7 @@ function createCards(animeData, foo) {
   if (animeData.length === 0) {
     mainContainer.innerHTML = `<h2 class="nothing-heading">Nothing was found</h2>`;
     loadMoreBtn.classList.replace('load-more-btn', 'not-visible');
+    Notify.failure('Try better loser', options);
   } else {
     animeData.forEach(anime => {
       foo(anime);
@@ -56,13 +59,15 @@ function createCards(animeData, foo) {
 
 //Creating small cards
 function drawSmallCard(anime) {
-  let { title, images, mal_id } = anime;
+  let { title, title_english, images, mal_id } = anime;
   const smallImageUrl = images.jpg.large_image_url;
+
+  let realTitle = title_english === null ? title : title_english;
 
   let smallAnimeCard = `
   <div class="anime-card" data-anime-id="${mal_id}">
   <img class="anime-image-small" src="${smallImageUrl}" alt="${title}" />
-  <h3 class="anime-small-heading">${title}</h3>
+  <h3 class="anime-small-heading">${realTitle}</h3>
   </div>
   `;
   mainContainer.insertAdjacentHTML('beforeend', smallAnimeCard);
@@ -95,13 +100,9 @@ select.addEventListener('change', async e => {
   searchType = 'genre';
   mainContainer.innerHTML = '';
   animeFetcher(drawSmallCard, url);
+  goBackBtn.classList.replace('not-visible', 'go-back-btn');
 });
 
-//
-
-mainContainer.addEventListener('click', openBigCard);
-//
-//
 //
 //Search by name
 searchBtn.addEventListener('click', e => {
@@ -115,8 +116,23 @@ searchBtn.addEventListener('click', e => {
       page = 1;
       mainContainer.innerHTML = '';
       animeFetcher(drawSmallCard, url);
+      goBackBtn.classList.replace('not-visible', 'go-back-btn');
     }
   }, 1000);
 });
 //
 //
+
+goBackBtn.addEventListener('click', e => {
+  e.preventDefault();
+  url = `${BASE_URL}/anime?${params}`;
+
+  select.value = document.querySelector('.anime-select-option').value;
+  input.value = '';
+
+  mainContainer.innerHTML = '';
+  animeFetcher(drawSmallCard, url);
+  goBackBtn.classList.replace('go-back-btn', 'not-visible');
+});
+
+mainContainer.addEventListener('click', openBigCard);
