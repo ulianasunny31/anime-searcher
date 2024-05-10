@@ -184,6 +184,12 @@ ol {
   }
 }
 
+@media screen and (min-width: 425px) {
+  .search-inp {
+    width: 200px;
+  }
+}
+
 @media screen and (min-width: 768px) {
   .search-inp {
     width: 220px;
@@ -434,7 +440,7 @@ ol {
 }
 
 .big-title {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--teal);
   margin-bottom: 8px;
 }
@@ -446,23 +452,55 @@ ol {
 .summary {
   color: var(--teal);
   margin-bottom: 8px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: bold;
 }
 
 p {
   font-style: italic;
   color: white;
+  font-size: 12px;
+}
+
+@media screen and (min-width: 375px) {
+  .big-title {
+    font-size: 14px;
+  }
+
+  .summary {
+    font-size: 14px;
+  }
+
+  p {
+    font-size: 13px;
+  }
+}
+
+@media screen and (min-width: 425px) {
+  .big-card {
+    width: 360px;
+  }
+  .big-title {
+    font-size: 15px;
+  }
+
+  .summary {
+    font-size: 15px;
+  }
+
+  p {
+    font-size: 14px;
+  }
 }
 
 @media screen and (min-width: 768px) {
   .big-card {
-    width: 550px;
+    width: 600px;
     padding: 10px;
   }
 
   .short-info {
-    width: 345px;
+    width: 355px;
     margin-top: 10px;
   }
 
@@ -474,9 +512,9 @@ p {
   }
 
   .big-title {
-    font-size: 15px;
+    font-size: 17px;
     color: var(--dark-red);
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
 
   .big-title > span {
@@ -486,12 +524,12 @@ p {
   .summary {
     color: var(--dark-red);
     margin-bottom: 10px;
-    font-size: 15px;
+    font-size: 17px;
     font-weight: bold;
   }
 
   p {
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 
@@ -514,7 +552,7 @@ p {
   }
 
   .big-title {
-    font-size: 18px;
+    font-size: 19px;
     margin-bottom: 12px;
   }
 
@@ -524,34 +562,116 @@ p {
 
   .summary {
     margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 19px;
   }
 
   p {
-    font-size: 15px;
+    font-size: 19px;
   }
 }
 
 @media screen and (min-width: 1440px) {
   .big-card {
-    width: 800px;
+    width: 1000px;
+  }
+
+  .short-info {
+    width: 670px;
+    margin-top: 40px;
   }
 
   .anime-image-big {
     width: 190px;
     height: 250px;
+    margin-bottom: 20px;
   }
 
   .big-title {
-    font-size: 19px;
-    margin-bottom: 14px;
+    font-size: 24px;
+    margin-bottom: 16px;
   }
 
   .summary {
-    font-size: 19px;
+    font-size: 24px;
   }
 
   p {
+    font-size: 23px;
+  }
+}
+
+/**
+  |============================
+  | MY LIST
+  |============================
+*/
+
+.my-list-div {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 15px;
+  margin-bottom: 15px;
+}
+
+.list-link {
+  color: var(--darker-teal);
+  font-size: 14px;
+  padding: 7px;
+  border-radius: 10px;
+  background: none;
+  cursor: pointer;
+  position: relative;
+  text-transform: uppercase;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: color;
+}
+
+.list-link:focus,
+.list-link:hover {
+  color: var(--teal);
+}
+
+.list-link:focus:after,
+.list-link:hover:after {
+  width: 100%;
+  left: 0%;
+}
+
+.list-link:after {
+  content: '';
+  pointer-events: none;
+  bottom: -2px;
+  left: 50%;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: var(--teal);
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: width, left;
+}
+
+@media screen and (min-width: 375px) {
+  .list-link {
+    font-size: 15px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .list-link {
     font-size: 16px;
+  }
+}
+
+@media screen and (min-width: 1158px) {
+  .list-link {
+    font-size: 18px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .list-link {
+    font-size: 20px;
   }
 }
