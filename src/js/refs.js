@@ -4,6 +4,7 @@ const mainContainer = document.querySelector('.main-container');
 const loadMoreBtn = document.querySelector('#load-more-btn');
 const select = document.getElementById('anime-select');
 const goBackBtn = document.getElementById('go-back-btn');
+
 const options = {
   position: 'center-center',
   borderRadius: '5px',

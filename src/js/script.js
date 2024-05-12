@@ -11,6 +11,7 @@ import {
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { openBigCard } from './big-card-shower';
 import { fetchGenres } from './fetch.js';
+import { addToList } from './my-list.js';
 
 //DECLARATIONS
 let genreValue, inputValue, timerID;
@@ -67,12 +68,11 @@ function drawSmallCard(anime) {
   let smallAnimeCard = `
   <div class="anime-card" data-anime-id="${mal_id}">
    <img class="anime-image-small" src="${smallImageUrl}" alt="${title}" />
-   <h3 class="anime-small-heading">${realTitle}</h3>
-   <svg id="add-icon" class="not-visible" width="" height="">
-    <use href="./images/symbol-defs.svg#icon-add"></use>
-   </svg>
+   <h3 class="anime-small-heading">${realTitle}</h3> 
+   <button class="add-button">+</button>
   </div>
   `;
+
   mainContainer.insertAdjacentHTML('beforeend', smallAnimeCard);
 }
 
@@ -139,3 +139,4 @@ goBackBtn.addEventListener('click', e => {
 });
 
 mainContainer.addEventListener('click', openBigCard);
+mainContainer.addEventListener('click', addToList);

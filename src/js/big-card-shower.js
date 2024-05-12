@@ -1,5 +1,5 @@
 import * as basicLightbox from 'basiclightbox';
-
+import { addToList } from './my-list';
 //При клике на картинку открывает большую карточку с информацией об аниме
 
 let url;
@@ -7,11 +7,13 @@ export const openBigCard = e => {
   e.preventDefault();
   let animeData;
   const animeCard = e.target.closest('.anime-card');
+  const addButton = e.target.closest('.add-button');
 
   //Проверяем нажали на карточку или нет
-  if (!animeCard) {
+  if (!animeCard || addButton) {
     return;
   }
+
   //Получили Id конкретного аниме
   const animeId = animeCard.dataset.animeId;
 
