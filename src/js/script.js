@@ -11,7 +11,6 @@ import {
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { openBigCard } from './big-card-shower';
 import { fetchGenres } from './fetch.js';
-import { addToList } from './my-list.js';
 
 //DECLARATIONS
 let genreValue, inputValue, timerID;
@@ -139,4 +138,3 @@ goBackBtn.addEventListener('click', e => {
 });
 
 mainContainer.addEventListener('click', openBigCard);
-mainContainer.addEventListener('click', addToList);

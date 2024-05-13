@@ -1,5 +1,16 @@
-let url;
-export function addToList(e) {
+import { localStorageKey } from './script.js';
+
+const listContainer = document.querySelector('.main-list-container');
+window.addEventListener('DOMContentLoaded', () => {
+  const savedAnimeCard = localStorage.getItem(localStorageKey);
+
+  if (savedAnimeCard) {
+    listContainer.insertAdjacentHTML('beforeend', savedAnimeCard);
+  }
+});
+
+const localStorageKey = 'saved-anime';
+function addToList(e) {
   e.preventDefault();
   e.stopPropagation();
   const addButton = e.target.closest('.add-button');
@@ -9,7 +20,7 @@ export function addToList(e) {
   if (!addButton) {
     return;
   }
-  console.log('clicked');
+
   //Getting id of the chosen anime
   const animeId = animeCard.dataset.animeId;
 
@@ -17,6 +28,18 @@ export function addToList(e) {
   fetch(url)
     .then(response => response.json())
     .then(result => {
-      console.log(result.data);
+      let { title, title_english, images, mal_id } = result.data;
+      const smallImageUrl = images.jpg.large_image_url;
+
+      let realTitle = title_english === null ? title : title_english;
+
+      let smallAnimeCard = `
+  <div class="anime-card" data-anime-id="${mal_id}">
+   <img class="anime-image-small" src="${smallImageUrl}" alt="${title}" />
+   <h3 class="anime-small-heading">${realTitle}</h3> 
+   <button class="add-button">+</button>
+  </div>
+  `;
+      localStorage.setItem(localStorageKey, smallAnimeCard);
     });
 }
