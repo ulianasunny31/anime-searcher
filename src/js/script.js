@@ -136,5 +136,46 @@ goBackBtn.addEventListener('click', e => {
   animeFetcher(drawSmallCard, url);
   goBackBtn.classList.replace('go-back-btn', 'not-visible');
 });
-
+//
+//
 mainContainer.addEventListener('click', openBigCard);
+mainContainer.addEventListener('click', addToList);
+//
+//
+//
+//
+//
+//
+
+let savedAnime = [];
+function addToList(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const addButton = e.target.closest('.add-button');
+  const animeCard = e.target.closest('.anime-card');
+
+  //Checking if clicked on the add btn
+  if (!addButton) {
+    return;
+  }
+
+  //Getting id of the chosen anime
+  const animeId = animeCard.dataset.animeId;
+
+  url = `https://api.jikan.moe/v4/anime/${animeId}`;
+  fetch(url)
+    .then(response => response.json())
+    .then(result => {
+      let animeData = result.data;
+
+      // let savedAnime = JSON.parse(localStorage.getItem('animeList')) || [];
+
+      // Добавляем данные карточки в список аниме
+      savedAnime.push(animeData);
+
+      // Сохраняем список аниме в localStorage
+      // localStorage.setItem('animeList', JSON.stringify(animeList));
+
+      console.log(savedAnime);
+    });
+}

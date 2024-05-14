@@ -1,45 +1,22 @@
-import { localStorageKey } from './script.js';
+// import { localStorage, savedAnime } from './script.js';
+// import { listContainer } from './refs.js';
+// import { openBigCard } from './big-card-shower.js';
 
-const listContainer = document.querySelector('.main-list-container');
-window.addEventListener('DOMContentLoaded', () => {
-  const savedAnimeCard = localStorage.getItem(localStorageKey);
+// console.log(savedAnime);
+// animeList.forEach(anime => {
+//   let { title, title_english, images, mal_id } = anime;
+//   const smallImageUrl = images.jpg.large_image_url;
 
-  if (savedAnimeCard) {
-    listContainer.insertAdjacentHTML('beforeend', savedAnimeCard);
-  }
-});
+//   let realTitle = title_english === null ? title : title_english;
 
-const localStorageKey = 'saved-anime';
-function addToList(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  const addButton = e.target.closest('.add-button');
-  const animeCard = e.target.closest('.anime-card');
+//   let smallAnimeCard = `
+//   <div class="anime-card" data-anime-id="${mal_id}">
+//    <img class="anime-image-small" src="${smallImageUrl}" alt="${title}" />
+//    <h3 class="anime-small-heading">${realTitle}</h3>
+//   </div>
+//   `;
 
-  //Checking if clicked on the add btn
-  if (!addButton) {
-    return;
-  }
+//   listContainer.insertAdjacentHTML('beforeend', smallAnimeCard);
+// });
 
-  //Getting id of the chosen anime
-  const animeId = animeCard.dataset.animeId;
-
-  url = `https://api.jikan.moe/v4/anime/${animeId}`;
-  fetch(url)
-    .then(response => response.json())
-    .then(result => {
-      let { title, title_english, images, mal_id } = result.data;
-      const smallImageUrl = images.jpg.large_image_url;
-
-      let realTitle = title_english === null ? title : title_english;
-
-      let smallAnimeCard = `
-  <div class="anime-card" data-anime-id="${mal_id}">
-   <img class="anime-image-small" src="${smallImageUrl}" alt="${title}" />
-   <h3 class="anime-small-heading">${realTitle}</h3> 
-   <button class="add-button">+</button>
-  </div>
-  `;
-      localStorage.setItem(localStorageKey, smallAnimeCard);
-    });
-}
+// listContainer.addEventListener('click', openBigCard);
