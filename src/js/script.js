@@ -7,10 +7,12 @@ import {
   select,
   goBackBtn,
   options,
+  listContainer,
 } from './refs.js';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { openBigCard } from './big-card-shower';
 import { fetchGenres } from './fetch.js';
+import { addToList } from './add-to-list.js';
 
 //DECLARATIONS
 let genreValue, inputValue, timerID;
@@ -146,8 +148,7 @@ mainContainer.addEventListener('click', addToList);
 //
 //
 //
-
-let savedAnime = [];
+mainContainer.addEventListener('click', addToList);
 function addToList(e) {
   e.preventDefault();
   e.stopPropagation();
@@ -158,24 +159,17 @@ function addToList(e) {
   if (!addButton) {
     return;
   }
-
   //Getting id of the chosen anime
   const animeId = animeCard.dataset.animeId;
-
   url = `https://api.jikan.moe/v4/anime/${animeId}`;
   fetch(url)
     .then(response => response.json())
     .then(result => {
       let animeData = result.data;
 
-      // let savedAnime = JSON.parse(localStorage.getItem('animeList')) || [];
+      const myList = JSON.parse(localStorage.getItem('myList')) || [];
+      myList.push(animeData);
 
-      // Добавляем данные карточки в список аниме
-      savedAnime.push(animeData);
-
-      // Сохраняем список аниме в localStorage
-      // localStorage.setItem('animeList', JSON.stringify(animeList));
-
-      console.log(savedAnime);
+      localStorage.setItem('myList', JSON.stringify(myList));
     });
 }
