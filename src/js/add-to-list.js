@@ -19,10 +19,16 @@ function addToList(e) {
     .then(result => {
       let animeData = result.data;
 
-      // Добавляем данные карточки в список аниме
-      savedAnime.push(animeData);
-      console.log(savedAnime);
+      const myList = JSON.parse(localStorage.getItem('myList')) || [];
+      myList.push(animeData);
+
+      localStorage.setItem('myList', JSON.stringify(myList));
+
+      const event = new CustomEvent('myListUpdated');
+      window.dispatchEvent(event);
+
+      console.log('Saved to localStorage:', myList);
     });
 }
 
-export { savedAnime, addToList };
+export { addToList };
