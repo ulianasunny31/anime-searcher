@@ -20,3 +20,15 @@ myList.forEach(anime => {
 });
 
 listContainer.addEventListener('click', openBigCard);
+
+function removeFromList(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const deleteButton = e.target.closest('.card-delete-btn');
+  const animeCard = e.target.closest('.anime-card');
+
+  //Checking if clicked on the remove btn
+  if (!deleteButton) {
+    return;
+  }
+}
