@@ -761,11 +761,18 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .card-delete-btn:hover,
 .card-delete-btn:focus {
   background-color: var(--darker-teal-btn);
+}
+
+.empty-heading {
+  margin: 50px auto 0;
+  font-family: 'Sedgwick Ave Display', cursive;
+  font-size: 25px;
 }
 
 @media screen and (min-width: 768px) {
@@ -777,12 +784,21 @@ p {
     column-gap: 35px;
     row-gap: 30px;
   }
+
+  .empty-heading {
+    font-size: 30px;
+  }
 }
 
 @media screen and (min-width: 1158px) {
   .main-list-container {
     column-gap: 75px;
     row-gap: 40px;
+  }
+
+  .empty-heading {
+    margin: 100px auto 0;
+    font-size: 60px;
   }
 }
 
@@ -791,5 +807,10 @@ p {
     column-gap: 85px;
     row-gap: 40px;
     padding: 50px;
+  }
+
+  .empty-heading {
+    margin: 100px auto 0;
+    font-size: 70px;
   }
 }

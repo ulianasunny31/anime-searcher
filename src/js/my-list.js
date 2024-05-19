@@ -2,7 +2,12 @@ import { openBigCard } from './big-card-shower.js';
 const listContainer = document.querySelector('.main-list-container');
 
 const myList = JSON.parse(localStorage.getItem('myList'));
-console.log(myList);
+
+if (myList.length === 0) {
+  listContainer.innerHTML = `
+    <h1 class="empty-heading">Your anime list is empty</h1>
+    `;
+}
 
 myList.forEach(anime => {
   let { title, title_english, images, mal_id } = anime;
@@ -15,7 +20,7 @@ myList.forEach(anime => {
      <button class="card-delete-btn">X</button>
     </div>
     `;
-  console.log(anime);
+
   listContainer.insertAdjacentHTML('beforeend', smallAnimeCard);
 });
 
@@ -26,9 +31,21 @@ function removeFromList(e) {
   e.stopPropagation();
   const deleteButton = e.target.closest('.card-delete-btn');
   const animeCard = e.target.closest('.anime-card');
+  const animeID = +animeCard.dataset.animeId;
 
   //Checking if clicked on the remove btn
   if (!deleteButton) {
     return;
   }
+
+  //Getting index of exact anime
+  const index = myList.findIndex(anime => anime.mal_id === animeID);
+
+  if (index !== -1) {
+    myList.splice(index, 1);
+    localStorage.setItem('myList', JSON.stringify(myList));
+    animeCard.remove();
+  }
 }
+
+listContainer.addEventListener('click', removeFromList);

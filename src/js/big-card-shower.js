@@ -8,9 +8,10 @@ export const openBigCard = e => {
   let animeData;
   const animeCard = e.target.closest('.anime-card');
   const addButton = e.target.closest('.add-button');
+  const deleteButton = e.target.closest('.card-delete-btn');
 
   //Проверяем нажали на карточку или нет
-  if (!animeCard || addButton) {
+  if (!animeCard || addButton || deleteButton) {
     return;
   }
 
