@@ -773,6 +773,7 @@ p {
   margin: 50px auto 0;
   font-family: 'Sedgwick Ave Display', cursive;
   font-size: 25px;
+  color: var(--light-teal);
 }
 
 @media screen and (min-width: 768px) {
