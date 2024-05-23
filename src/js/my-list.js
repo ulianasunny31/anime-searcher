@@ -31,7 +31,18 @@ function removeFromList(e) {
   e.stopPropagation();
   const deleteButton = e.target.closest('.card-delete-btn');
   const animeCard = e.target.closest('.anime-card');
+
+  if (!animeCard) {
+    console.error('Anime card not found');
+    return;
+  }
   const animeID = +animeCard.dataset.animeId;
+  console.log(animeID);
+
+  if (isNaN(animeID)) {
+    console.error('Invalid anime ID');
+    return;
+  }
 
   //Checking if clicked on the remove btn
   if (!deleteButton) {

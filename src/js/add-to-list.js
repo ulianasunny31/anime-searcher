@@ -1,4 +1,7 @@
-let savedAnime = [];
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { options } from './refs.js';
+
+let myList = JSON.parse(localStorage.getItem('myList')) || [];
 function addToList(e) {
   e.preventDefault();
   e.stopPropagation();
@@ -13,22 +16,35 @@ function addToList(e) {
   //Getting id of the chosen anime
   const animeId = animeCard.dataset.animeId;
 
-  url = `https://api.jikan.moe/v4/anime/${animeId}`;
-  fetch(url)
-    .then(response => response.json())
-    .then(result => {
-      let animeData = result.data;
+  const isAdded = myList.some(anime => String(anime.mal_id) === animeId);
+  console.log(myList);
 
-      const myList = JSON.parse(localStorage.getItem('myList')) || [];
-      myList.push(animeData);
+  if (!isAdded) {
+    url = `https://api.jikan.moe/v4/anime/${animeId}`;
+    fetch(url)
+      .then(response => response.json())
+      .then(result => {
+        let animeData = result.data;
 
-      localStorage.setItem('myList', JSON.stringify(myList));
+        myList.push(animeData);
 
-      const event = new CustomEvent('myListUpdated');
-      window.dispatchEvent(event);
+        localStorage.setItem('myList', JSON.stringify(myList));
 
-      console.log('Saved to localStorage:', myList);
+        Notify.info('Added!', {
+          position: 'center-top',
+          borderRadius: '5px',
+          cssAnimationStyle: 'from-bottom',
+          clickToClose: true,
+        });
+      });
+  } else {
+    Notify.info('You already added this anime to your list', {
+      position: 'center-top',
+      borderRadius: '5px',
+      cssAnimationStyle: 'from-bottom',
+      clickToClose: true,
     });
+  }
 }
 
 export { addToList };
