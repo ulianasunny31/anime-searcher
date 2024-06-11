@@ -1,4 +1,5 @@
 import { openBigCard } from './big-card-shower.js';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 const listContainer = document.querySelector('.main-list-container');
 
 const myList = JSON.parse(localStorage.getItem('myList'));
@@ -37,7 +38,6 @@ function removeFromList(e) {
     return;
   }
   const animeID = +animeCard.dataset.animeId;
-  console.log(animeID);
 
   if (isNaN(animeID)) {
     console.error('Invalid anime ID');
@@ -56,6 +56,18 @@ function removeFromList(e) {
     myList.splice(index, 1);
     localStorage.setItem('myList', JSON.stringify(myList));
     animeCard.remove();
+    Notify.info('Removed!', {
+      position: 'center-top',
+      borderRadius: '5px',
+      cssAnimationStyle: 'from-bottom',
+      clickToClose: true,
+    });
+  }
+
+  if (myList.length === 0) {
+    listContainer.innerHTML = `
+    <h1 class="empty-heading">Your anime list is empty</h1>
+    `;
   }
 }
 
