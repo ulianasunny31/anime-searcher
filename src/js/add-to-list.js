@@ -1,5 +1,5 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import { options } from './refs.js';
+
 let url;
 
 let myList = JSON.parse(localStorage.getItem('myList')) || [];
