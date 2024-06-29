@@ -7,5 +7,5 @@ Search by Name: Quickly find your favorite anime by typing its name. <br>
 Filter by Genre: Select from various genres to discover new anime that match your interests.<br>
 Manage Your List: Add your favorite animes to a personalized list for easy access.<br>
 
-API
+<h3>API</h3>
 This project uses a free anime API to fetch anime data. <a href="https://docs.api.jikan.moe/#tag/anime">Link</a>
